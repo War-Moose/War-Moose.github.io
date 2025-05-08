@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Countdown Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: #f0f0f0;
+    }
+    h1 {
+      font-size: 2em;
+    }
+    .counter {
+      font-size: 3em;
+      margin: 20px 0;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Countdown Tracker</h1>
+  <div>
+    <p>Manual Counter: <span id="manualCount">3652</span></p>
+    <p>Days until 10 years from today: <span id="dateCount">...</span></p>
+    <button onclick="decreaseCount()">Click Me</button>
+  </div>
+
+  <script>
+    let manualCount = 3652; // starting count
+    const manualCountEl = document.getElementById("manualCount");
+    const dateCountEl = document.getElementById("dateCount");
+
+    const targetDate = new Date();
+    targetDate.setFullYear(targetDate.getFullYear() + 10);
+
+    function updateDateCount() {
+      const today = new Date();
+      const timeDiff = targetDate - today;
+      const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+      dateCountEl.textContent = days;
+    }
+
+    function decreaseCount() {
+      if (manualCount > 0) {
+        manualCount--;
+        manualCountEl.textContent = manualCount;
+      }
+    }
+
+    updateDateCount();
+  </script>
+</body>
+</html>
