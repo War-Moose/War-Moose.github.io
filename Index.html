@@ -1,60 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Countdown Tracker</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <title>Moose Chase</title>
   <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 50px;
-      background: #f0f0f0;
-    }
-    h1 {
-      font-size: 2em;
-    }
-    .counter {
-      font-size: 3em;
-      margin: 20px 0;
-    }
-    button {
-      font-size: 1.2em;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
+    canvas { background: #87CEEB; display: block; margin: 0 auto; }
   </style>
 </head>
 <body>
-  <h1>Countdown Tracker</h1>
-  <div>
-    <p>Manual Counter: <span id="manualCount">3652</span></p>
-    <p>Days until 10 years from today: <span id="dateCount">...</span></p>
-    <button onclick="decreaseCount()">Click Me</button>
-  </div>
-
+  <canvas id="canvas" width="600" height="400"></canvas>
   <script>
-    let manualCount = 3652; // starting count
-    const manualCountEl = document.getElementById("manualCount");
-    const dateCountEl = document.getElementById("dateCount");
-
-    const targetDate = new Date();
-    targetDate.setFullYear(targetDate.getFullYear() + 10);
-
-    function updateDateCount() {
-      const today = new Date();
-      const timeDiff = targetDate - today;
-      const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-      dateCountEl.textContent = days;
+    const ctx = document.getElementById('canvas').getContext('2d');
+    let mooseX = 50, mooseY = 180;
+    function update() {
+      mooseX += 2; // moose charges right
+      if (mooseX > 600) mooseX = -50;
     }
-
-    function decreaseCount() {
-      if (manualCount > 0) {
-        manualCount--;
-        manualCountEl.textContent = manualCount;
-      }
+    function draw() {
+      ctx.clearRect(0, 0, 600, 400);
+      // simple moose: brown rectangle with antlers
+      ctx.fillStyle = 'saddlebrown';
+      ctx.fillRect(mooseX, mooseY, 50, 30);
+      ctx.beginPath();
+      ctx.moveTo(mooseX+10, mooseY);
+      ctx.lineTo(mooseX, mooseY-20);
+      ctx.lineTo(mooseX+20, mooseY-20);
+      ctx.closePath();
+      ctx.fill();
     }
-
-    updateDateCount();
+    function loop() {
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+    loop();
   </script>
 </body>
 </html>
